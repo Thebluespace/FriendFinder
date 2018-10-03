@@ -6,25 +6,15 @@ var PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var apiRoutes = require(path.join(__dirname, "FriendFinder","app","routing","apiRoutes.js"));
-var htmlRoutes = require(path.join(__dirname, "FriendFinder","app","routing","apiRoutes.js"));
+app.use(express.static(path.join(__dirname, '/app/public')));
 
-
-
-app.get("/", (req,res) => {
-    res.sendFile(path.join(__dirname,"FriendFinder","app","public", "home.html"));
-});
-
-app.get("/getsurvey", (req,res) => {
-    res.sendFile(path.join(__dirname,"FriendFinder","app","public", "survey.html"));
-});
-
+require("./app/routing/apiRoutes")(app);
+require("./app/routing/htmlRoutes")(app);
 
 app.get("/favicon.ico", (req,res) =>{
     return;
 });
 
 app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-    interval = setInterval(clearTables, 1000 * 30);
+    console.log("App listening on PORT " + PORT,"http://localhost:" + PORT);;
 });
